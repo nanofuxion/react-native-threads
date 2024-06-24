@@ -68,7 +68,7 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
 
     JSBundleLoader bundleLoader = getDevSupportManager().getDevSupportEnabled()
             ? createDevBundleLoader(jsFileName, jsFileSlug)
-            : createReleaseBundleLoader(jsFileSlug);
+            : createReleaseBundleLoader(jsFileName, jsFileSlug);
 
     try {
       ArrayList<ReactPackage> threadPackages = new ArrayList<ReactPackage>(Arrays.asList(additionalThreadPackages));
@@ -183,7 +183,7 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
     return JSBundleLoader.createCachedBundleFromNetworkLoader(bundleUrl, bundleOut);
   }
 
-  private JSBundleLoader createReleaseBundleLoader(String jsFileSlug) {
+  private JSBundleLoader createReleaseBundleLoader(String jsFileName, String jsFileSlug) {
     Log.d(TAG, "createReleaseBundleLoader - reading file from assets");
     return JSBundleLoader.createAssetLoader(reactApplicationContext, "assets://threads/" + jsFileSlug + ".bundle", false);
   }
