@@ -18,7 +18,7 @@ import com.facebook.react.modules.websocket.WebSocketModule;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.ViewManager;
 import com.facebook.react.modules.debug.DevSettingsModule;
-import com.asterinet.react.tcpsocket.TcpSocketModule;
+//import com.asterinet.react.tcpsocket.TcpSocketModule;
 import com.margelo.quickcrypto.QuickCryptoModule;
 import com.reactnativemmkv.MMKVModule;
 
@@ -61,7 +61,7 @@ public class ThreadBaseReactPackage implements ReactPackage {
                 new DevSettingsModule(catalystApplicationContext, reactInstanceManager.getDevSupportManager()),
 
                 // BrickBox list
-                new TcpSocketModule(catalystApplicationContext),
+//                new TcpSocketModule(catalystApplicationContext),
                 new QuickCryptoModule(catalystApplicationContext),
                 new MMKVModule(catalystApplicationContext)
         );
