@@ -23,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public class ThreadBaseReactPackage implements ReactPackage {
 
     private final ReactInstanceManager reactInstanceManager;
@@ -31,8 +33,9 @@ public class ThreadBaseReactPackage implements ReactPackage {
         this.reactInstanceManager = reactInstanceManager;
     }
 
+    @NonNull
     @Override
-    public List<NativeModule> createNativeModules(ReactApplicationContext catalystApplicationContext) {
+    public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext catalystApplicationContext) {
         return Arrays.<NativeModule>asList(
                 // Core list
                 new AndroidInfoModule(catalystApplicationContext),
@@ -54,8 +57,9 @@ public class ThreadBaseReactPackage implements ReactPackage {
         );
     }
 
+    @NonNull
     @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
+    public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
         return new ArrayList<>(0);
     }
 }

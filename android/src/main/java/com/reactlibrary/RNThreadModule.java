@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 
+import androidx.annotation.NonNull;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -31,16 +32,16 @@ import okio.Sink;
 
 public class RNThreadModule extends ReactContextBaseJavaModule implements LifecycleEventListener {
 
-  private String TAG = "ThreadManager";
-  private HashMap<Integer, JSThread> threads;
+  private final String TAG = "ThreadManager";
+  private final HashMap<Integer, JSThread> threads;
 
-  private ReactApplicationContext reactApplicationContext;
+  private final ReactApplicationContext reactApplicationContext;
 
-  private ReactNativeHost reactNativeHost;
+  private final ReactNativeHost reactNativeHost;
 
-  private ReactPackage additionalThreadPackages[];
+  private final ReactPackage[] additionalThreadPackages;
 
-  public RNThreadModule(final ReactApplicationContext reactContext, ReactNativeHost reactNativehost, ReactPackage additionalThreadPackages[]) {
+  public RNThreadModule(final ReactApplicationContext reactContext, ReactNativeHost reactNativehost, ReactPackage[] additionalThreadPackages) {
     super(reactContext);
     this.reactApplicationContext = reactContext;
     threads = new HashMap<>();
@@ -49,6 +50,7 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
     reactContext.addLifecycleEventListener(this);
   }
 
+  @NonNull
   @Override
   public String getName() {
     return "ThreadManager";
@@ -66,7 +68,7 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
 
     JSBundleLoader bundleLoader = getDevSupportManager().getDevSupportEnabled()
             ? createDevBundleLoader(jsFileName, jsFileSlug)
-            : createReleaseBundleLoader(jsFileName, jsFileSlug);
+            : createReleaseBundleLoader(jsFileSlug);
 
     try {
       ArrayList<ReactPackage> threadPackages = new ArrayList<ReactPackage>(Arrays.asList(additionalThreadPackages));
@@ -181,7 +183,7 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
     return JSBundleLoader.createCachedBundleFromNetworkLoader(bundleUrl, bundleOut);
   }
 
-  private JSBundleLoader createReleaseBundleLoader(String jsFileName, String jsFileSlug) {
+  private JSBundleLoader createReleaseBundleLoader(String jsFileSlug) {
     Log.d(TAG, "createReleaseBundleLoader - reading file from assets");
     return JSBundleLoader.createAssetLoader(reactApplicationContext, "assets://threads/" + jsFileSlug + ".bundle", false);
   }
@@ -215,11 +217,12 @@ public class RNThreadModule extends ReactContextBaseJavaModule implements Lifecy
     try {
       Response response = client.newCall(request).execute();
       if (!response.isSuccessful()) {
-        throw new RuntimeException("Error downloading thread script - " + response.toString());
+        throw new RuntimeException("Error downloading thread script - " + response);
       }
 
       Sink output = Okio.sink(out);
-      Okio.buffer(response.body().source()).readAll(output);
+        assert response.body() != null;
+        Okio.buffer(response.body().source()).readAll(output);
     } catch (IOException e) {
       throw new RuntimeException("Exception downloading thread script to file", e);
     }

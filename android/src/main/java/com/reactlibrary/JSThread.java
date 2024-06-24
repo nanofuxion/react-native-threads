@@ -6,9 +6,9 @@ import com.facebook.react.modules.core.DeviceEventManagerModule;
 import java.util.Random;
 
 public class JSThread {
-    private int id;
+    private final int id;
 
-    private String jsSlugname;
+    private final String jsSlugname;
     private ReactApplicationContext reactContext;
 
     public JSThread(String jsSlugname) {
@@ -32,6 +32,7 @@ public class JSThread {
         reactContext = reactContextBuilder.build();
 
         ThreadSelfModule threadSelfModule = reactContext.getNativeModule(ThreadSelfModule.class);
+        assert threadSelfModule != null;
         threadSelfModule.initialize(id, context);
     }
 
