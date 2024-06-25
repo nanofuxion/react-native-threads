@@ -10,10 +10,10 @@ import com.facebook.react.modules.core.ExceptionsManagerModule;
 import com.facebook.react.modules.core.TimingModule;
 import com.facebook.react.modules.debug.SourceCodeModule;
 import com.facebook.react.modules.deviceinfo.DeviceInfoModule;
-//import com.facebook.react.modules.intent.IntentModule;
+import com.facebook.react.modules.intent.IntentModule;
 import com.facebook.react.modules.network.NetworkingModule;
 import com.facebook.react.modules.systeminfo.AndroidInfoModule;
-//import com.facebook.react.modules.vibration.VibrationModule;
+import com.facebook.react.modules.vibration.VibrationModule;
 import com.facebook.react.modules.websocket.WebSocketModule;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.ViewManager;
@@ -50,14 +50,15 @@ public class ThreadBaseReactPackage implements ReactPackage {
                 new SourceCodeModule(catalystApplicationContext), new JSCHeapCapture(catalystApplicationContext),
 
                 // Main list
-//                new IntentModule(catalystApplicationContext),
+//                new AsyncStorageModule(catalystApplicationContext),
+                new IntentModule(catalystApplicationContext),
                 new NetworkingModule(catalystApplicationContext),
-//                new VibrationModule(catalystApplicationContext),
+                new VibrationModule(catalystApplicationContext),
                 new WebSocketModule(catalystApplicationContext),
                 new ThreadSelfModule(catalystApplicationContext),
                 new DevSettingsModule(catalystApplicationContext, reactInstanceManager.getDevSupportManager())
         );
-    }
+    };
 
     @NonNull
     @Override
